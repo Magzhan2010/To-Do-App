@@ -50,28 +50,29 @@ function App() {
 
   return (
   <div className='bg-[#110E6D] h-screen font-mons flex flex-col justify-center'>
-    <div className='bg-white w-[60%] mx-auto rounded-3xl px-30 py-5'>
-      <h1 className='font-bold text-4xl mb-[38px] text-center'>My To-Do List</h1>
-      <div className='flex items-center justify-center mb-10'>
-        <input type="text" onChange={e => setToInput(e.target.value)} value={ToInput} placeholder='add your task here' className='bg-[#EDEEF0] flex-1 py-5 px-7 outline-none rounded-4xl' onKeyDown={e => e.key === 'Enter' && handleSubmit()}/>
+    <div className='bg-white  w-[95%] md:w-[80%] lg:w-[60%] mx-auto rounded-3xl px-30 py-5'>
+      <h1 className='font-bold text-xl md:text-4xl
+whitespace-nowrap mb-[38px] text-center'>My To-Do List</h1>
+      <div className='flex gap-2 items-center justify-center mb-10'>
+        <input type="text" onChange={e => setToInput(e.target.value)} value={ToInput} placeholder='add your task here' className='bg-[#EDEEF0] flex-1 py-3 px-4 md:py-5 md:px-7 outline-none rounded-4xl' onKeyDown={e => e.key === 'Enter' && handleSubmit()}/>
         
         <button onClick={handleSubmit} className='bg-[#1D60B7] px-8 py-3 text-white rounded-2xl hover:scale-105 transform transition-all self-center'>Add</button>
       </div>
       {todos.map(item => (
-        <ul key={item.id} className='flex-1 flex gap-x-3 rounded-xl shadow-md mb-3 py-3 px-4 items-center'>
+        <ul key={item.id} className='flex-1 flex gap-x-2 justify-between rounded-xl shadow-md mb-3 py-3 px-4 items-center'>
           <div className={item.done ? "cursor-pointer rounded-full w-6 h-6 border-2 text-white flex items-center justify-center border-[#1D60B7] bg-[#1D60B7]" : "cursor-pointer rounded-full w-6 h-6 border-2 border-[#1D60B7]"} onClick={() => handlePut(item.id, item.done, item.task)}>
             {item.done ? '✔' : ""}
           </div>
-          <li className={item.done ? 'line-through text-gray-400' : 'text-md font-semibold'}>{item.task}</li>
-          <p className='text-xs text-gray-400'>
+          <li className={item.done ? 'line-through text-gray-400 flex-1 break-words min-w-0' : 'text-sm font-semibold flex-1 break-words min-w-0'}>{item.task}</li>
+          <p className='text-xs text-gray-400 hidden md:block'>
             created: {new Date(item.created_at).toLocaleString('ru-RU')} |
           </p>
-          <p className='text-xs text-gray-400'>
+          <p className='text-xs text-gray-400 hidden md:block'>
             finished: {new Date(item.update_at).toLocaleString('ru-RU')}
           </p>
           <button
             onClick={() => handleDelete(item.id)}
-            className="inline-flex items-center px-4 py-2 bg-red-600 transition ease-in-out delay-75 hover:bg-red-700 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110 ml-auto"
+            className="inline-flex items-center px-2 py-2 bg-red-600 transition ease-in-out delay-75 hover:bg-red-700 text-white text-sm font-medium rounded-md hover:-translate-y-1 hover:scale-110 ml-auto"
           >
             <svg
               stroke="currentColor"
