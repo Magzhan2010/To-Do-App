@@ -12,11 +12,8 @@ app.use(cors()); // front-end портын қосу үшін
 const { Pool } = pkg
 
 const pool = new Pool({
-	user: 'postgres',
-	host:'localhost',
-	database: 'todo_base',
-	port: 5432,
-	password: 'Mag1shkrut2010$'
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false }
 })
 //Connecting PostgreSQL
 pool.connect()
