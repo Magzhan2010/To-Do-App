@@ -5,7 +5,7 @@ function App() {
   const [todos, setTodos] = useState([])
   const [ToInput, setToInput] = useState('')
   useEffect(() => {
-    fetch('http://localhost:3000/todos')
+    fetch('https://to-do-app-production-76b3.up.railway.app/todos')
       .then(res => res.json())
       .then(data => setTodos(data))
   }, [])
@@ -14,13 +14,13 @@ function App() {
       return null
     }
 
-    const res = await fetch('http://localhost:3000/todos', {
+    const res = await fetch('https://to-do-app-production-76b3.up.railway.app/todos', {
       method: "POST",
       headers: {  'Content-Type': 'application/json'},
       body: JSON.stringify({ task: ToInput })
     })
     setToInput('')
-    const res2 = await fetch('http://localhost:3000/todos', {
+    const res2 = await fetch('https://to-do-app-production-76b3.up.railway.app/todos', {
       method: "GET",
     })
     const data = await res2.json()
@@ -28,13 +28,13 @@ function App() {
   }
 
   const handleDelete = async(id) => {
-    const res = await fetch(`http://localhost:3000/todos/${id}`, {
+    const res = await fetch(`https://to-do-app-production-76b3.up.railway.app/todos/${id}`, {
       method: "DELETE",
     })
     setTodos(todos.filter(item => item.id !== id))
   }
   const handlePut = async(id, done,task) => {
-    await fetch(`http://localhost:3000/todos/${id}`, {
+    await fetch(`https://to-do-app-production-76b3.up.railway.app/${id}`, {
       method: "PUT",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ task: task,done: !done })
