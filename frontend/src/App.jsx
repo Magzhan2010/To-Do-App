@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { BeatLoader, ClipLoader } from 'react-spinners'
 
 function App() {
   const [todos, setTodos] = useState([])
+  const [loading, setLoading] = useState(false)
   const [ToInput, setToInput] = useState('')
   useEffect(() => {
     fetch('https://to-do-app-production-76b3.up.railway.app/todos')
@@ -13,7 +15,7 @@ function App() {
     if (ToInput === ' ' || ToInput === null) {
       return null
     }
-
+    setLoading(true)
     const res = await fetch('https://to-do-app-production-76b3.up.railway.app/todos', {
       method: "POST",
       headers: {  'Content-Type': 'application/json'},
@@ -25,15 +27,19 @@ function App() {
     })
     const data = await res2.json()
     setTodos(data)
+    setLoading(false)
   }
 
   const handleDelete = async(id) => {
+    setLoading(true)
     const res = await fetch(`https://to-do-app-production-76b3.up.railway.app/todos/${id}`, {
       method: "DELETE",
     })
     setTodos(todos.filter(item => item.id !== id))
+    setLoading(false)
   }
   const handlePut = async(id, done,task) => {
+    setLoading(true)
     await fetch(`https://to-do-app-production-76b3.up.railway.app/${id}`, {
       method: "PUT",
       headers: { 'Content-Type': 'application/json' },
@@ -46,6 +52,7 @@ function App() {
         return {...item}
       }
     }))
+    setLoading(false)
   }
 
   return (
@@ -57,7 +64,7 @@ whitespace-nowrap mb-[38px] text-center'>My To-Do List</h1>
 
         <input type="text" onChange={e => setToInput(e.target.value)} value={ToInput} placeholder='add your task here' className='bg-[#EDEEF0] w-full py-3 px-4 md:py-5 md:px-7 outline-none rounded-4xl' onKeyDown={e => e.key === 'Enter' && handleSubmit()}/>
         
-        <button onClick={handleSubmit} className='bg-[#1D60B7] w-full sm:w-auto px-8 py-3 text-white rounded-2xl hover:scale-105 transform transition-all self-center'>Add</button>
+        <button onClick={handleSubmit} className='bg-[#1D60B7] w-full sm:w-auto px-8 py-3 text-white rounded-2xl hover:scale-105 transform transition-all self-center'>{loading ? <BeatLoader color="white" size={15}/> : "Add"}</button>
       </div>
 
       {todos.map(item => (
@@ -70,11 +77,11 @@ whitespace-nowrap mb-[38px] text-center'>My To-Do List</h1>
           </li>
           <div className='w-full flex gap-2 mt-1'>
             <p className='text-[10px] text-gray-400'>
-              🕐created: {new Date(item.created_at).toLocaleString('ru-RU')} |
+              🕐 created: {new Date(item.created_at).toLocaleString('ru-RU')} |
             </p>
 
             <p className='text-[10px] text-gray-400'>
-              ✅finished: {new Date(item.update_at).toLocaleString('ru-RU')}
+              ✅ finished: {new Date(item.update_at).toLocaleString('ru-RU')}
             </p>
           </div>
 
